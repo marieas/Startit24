@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="textDiv">Dette er min tekst</div>
+    <button onclick="changeColorBlue()">Change color to blue</button>
+    <button onclick="changeColorRed()">Change color to red</button>
+    <button onclick="changeColor('pink')">Change color to pink</button>
+    <button onclick="changeTextAndColor('endret tekst','brown')">Change text and color</button>
+    <button id="mybtn" onclick="changeToGreenOrGray()">changeToGreenOrGray</button>
+    <script>
+        let btnToGreen = true;
+
+        changeColor('gray')
+
+        function changeColorBlue(){       
+           // document.getElementById('textDiv').style.backgroundColor = 'blue'
+            changeColor('blue')
+        }
+
+        function changeColorRed(){       
+            document.getElementById('textDiv').style.backgroundColor = 'red'
+        }
+
+        function changeColor(color){
+            document.getElementById('textDiv').style.backgroundColor = color
+        }
+        function changeTextAndColor(text,color){
+            document.getElementById('textDiv').style.backgroundColor = color
+            document.getElementById('textDiv').innerHTML = text 
+        }
+        function changeToGreenOrGray(){
+            if(btnToGreen == true){
+                document.getElementById('mybtn').style.backgroundColor = 'green'
+            }else{
+                document.getElementById('mybtn').style.backgroundColor = 'gray'
+            }
+            btnToGreen = !btnToGreen;
+        }
+    </script>
+</body>
+</html>
