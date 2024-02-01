@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .shadow{
+               height: 100px;
+               width: 100px;
+               box-shadow: 7px 5px 5px
+           }
+       </style>
+</head>
+<body>   
+    <!--Id tag-->
+    <img id="img1" onclick="setToTerje1()" class="shadow">
+    <!--Sender med this-->
+    <img onclick="setToTerje2(this)" class="shadow">
+
+    <img onclick="setRandomImg(this)" class="shadow">
+
+    <img onclick="setRandomImgClean(this,'200px')" class="shadow">
+    <img onclick="setRandomImgClean(this,'250px')" class="shadow">
+    <img onclick="setRandomImgClean(this,'300px')" class="shadow">
+    
+    <script>
+        //Sette fast verdi med id
+        function setToTerje1(){
+            document.getElementById('img1').src = 'terje1.jpg'
+        }
+
+        //set fast verdi med 'this' som parameter
+        function setToTerje2(imgElement){
+            imgElement.src = 'terje2.jpg'
+        }
+
+        function setRandomImg(imgElement){           
+           let randomNumber = Math.floor(Math.random() * 3)
+           
+           if(randomNumber == 0){
+                imgElement.src = 'terje1.jpg'
+           }
+           else if(randomNumber == 1){
+                imgElement.src = 'terje2.jpg'
+           }
+           else{
+                imgElement.src = 'terje3.jpg'
+           }
+        }
+        function setRandomImgClean(imgElement,heightreq){          
+        //først må vi hente inn høyden som vi har sent inn i funksjonen
+          console.log('Nå kjører setRandomImgClean funksjon')      
+          console.log('Verdien this har gitt oss er: ' + imgElement)
+          
+          let terjepic = getTerjePic();
+          console.log('verdien på variabel terjepic: ' + terjepic)
+          imgElement.src = terjepic;
+          //endre høyden på bildeelementet vårt
+          imgElement.style.height = heightreq
+        }
+
+        function getTerjePic(){
+            let randomNumber = Math.floor(Math.random() * 3)
+            console.log('Nå kjører getterjepic funksjon') 
+           if(randomNumber == 0){
+                return 'terje1.jpg'
+           }
+           else if(randomNumber == 1){
+                return'terje2.jpg'
+           }
+           else{
+                return 'terje3.jpg'
+           }
+        }
+    </script>
+</body>
+</html>
