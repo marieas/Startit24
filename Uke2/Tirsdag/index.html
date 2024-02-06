@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+
+    </div>
+    <!--<div id="nameDiv"></div>
+    <div id="workDiv"></div>
+    <div id="mealDiv"></div>-->   
+    <script>
+
+        //M - Model dataen vår
+        let name ='Kåre';
+        let workplace='Bensinstasjon';
+        let food='Salat';
+        let hobby='Sykle'
+
+        updateView()
+        //V - View - oppdaterer det grafiske
+        function updateView(){
+           /* document.getElementById('nameDiv').innerHTML = 'My name is ' + name;
+            document.getElementById('workDiv').innerHTML = 'I work at ' + workplace;
+            document.getElementById('mealDiv').innerHTML = 'My favorite meal is ' + food;*/
+
+            document.getElementById('app').innerHTML = /*HTML*/`            
+            <div>My name is ${name}</div>
+            <div>I work at ${workplace}</div>
+            <div>My favorite meal is ${food}</div>  
+            <div>My favorite hobby is${hobby}</div>  
+            <input onchange="setHobby(this)">
+            
+            <button onclick="setName(this)">Bjarne</button>
+            <button onclick="setName(this)">Marius</button>
+            <button onclick="setName(this)">Kim</button>
+            <button onclick="getRandomName()">Get random name</button>
+
+            <button onclick="setWorkPlace(this)">Traktorhuset</button>
+            <button onclick="setWorkPlace(this)">Get academy</button>
+            <button onclick="setWorkPlace(this)">Jysk</button>
+
+            <button onclick="setFood(this)">Pizza</button>
+            <button onclick="setFood(this)">Taco</button>
+            <button onclick="setFood(this)">Dinosaurkjeks</button>
+            ` 
+        }
+
+        //C - Control - funksjoner som endrer på modellen
+
+        // parameter er selve knappen man har trykt på
+        function setName(btn){
+            name = btn.innerHTML;
+            console.log(name)
+            updateView()
+        }
+
+        function getRandomName(){
+            let randomNum = Math.floor(Math.random() * 3);
+            if(randomNum == 1){
+                name = 'Camilla'
+            }
+            else if(randomNum == 2){
+                name = 'Nils'
+            }
+            else{
+                name = 'Bernt Georg'
+            }
+            updateView()
+        }
+
+        function setWorkPlace(btn){
+            workplace = btn.innerHTML;
+            updateView()
+        }
+
+        function setFood(btn){
+            food = btn.innerHTML;
+            updateView()
+        }
+
+        function setHobby(input){
+            hobby = input.value
+            updateView();
+        }
+
+        // parameter er en string verdi
+        function setNameWithStringParam(name){
+            document.getElementById('nameDiv').innerHTML += name;
+        }
+    </script>
+</body>
+</html>
