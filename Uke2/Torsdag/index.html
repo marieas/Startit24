@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app"></div>
+     <!--      
+        oppdater med bilde
+
+        Steg 1. Hvilke verdier basert på det man ser på skjermen
+        kan endre seg? -> lag variabler man vil trenge
+
+        Steg 2. Identifiser og lag tomme metoder vi vil ha behov for,
+        som skal oppdatere verdien på det som endrer seg 
+
+        Steg 3. Implementer funksjonalitet for en og en ting
+
+        Steg 4. Gjør om til MVC
+        -->
+ 
+    <script>
+
+        // Modell
+        let question ='Hvordan har du det idag?';
+        let sarcasmResult = '';
+        let imageToShow = '';
+        let userInput = '';
+        let hasAnswered = false;
+
+        // View
+        updateView()
+        function updateView(){
+            document.getElementById('app').innerHTML = /*HTML*/ `
+            <div>${question}</div>
+            <input onchange="GetUserInput(this.value)">
+            <button onclick="SubmitAnswer()">Answer</button>
+            <button onclick="GetNewQuestion()">Get new question</button> 
+            <div>${sarcasmResult}</div> 
+            <img src=${imageToShow}>            
+            `
+        }
+
+        //Controller
+        function GetNewQuestion(){
+            if(hasAnswered){
+                let randNum = Math.floor(Math.random() * 4)
+
+                if(randNum == 0){
+                    question = 'Hvordan har du det idag?'
+                }
+                else if(randNum == 1){
+                    question = 'Hva synes du om kodetimene til Marie?'
+                }
+                else if(randNum == 2){
+                    question = 'Hva tenker du når du hører navnet Bjarne?'
+                }
+                else {
+                    question = 'Hvorfor har du ikke på kamera?'
+                }
+               
+                hasAnswered = false;
+                userInput = '';
+            }
+            else{
+                sarcasmResult = 'You have to ANSWER FIRST!!!!';
+            }
+            updateView();
+        }
+
+        function SubmitAnswer(){
+            console.log('hallo:' + userInput)
+            if(userInput != '' ){
+                hasAnswered = true;
+            }
+            
+            DetectIfSarcasm('...');
+            updateView();
+        }
+
+        function GetUserInput(inputText){
+            userInput = inputText;
+            console.log('Her er det: ' + userInput)
+        }
+
+        function UpdateImage(isSarcasm){
+            if(isSarcasm){
+                imageToShow = 'sarcasm.jpg'
+            }
+            else{
+                imageToShow = 'honest.jpeg'
+            }
+        }
+        function DetectIfSarcasm(sarcasmChecker){
+            console.log('Nå kjører detect funksjonen')
+           let result = userInput.includes(sarcasmChecker);
+           if(result == true){
+                sarcasmResult = 'Sarcasm detected'
+           }
+           else{
+            if(userInput != '' ){
+                sarcasmResult = 'No sarcasm'
+            }
+             
+           }          
+          /*  Invertert logikk
+          if(result != true){
+                sarcasmResult = 'No sarcasm detected'
+           }
+           else{
+             sarcasmResult = 'Sarcasm detected'
+           }*/
+           UpdateImage(result)
+        }
+    </script> 
+</body>
+</html>
