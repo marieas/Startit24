@@ -47,8 +47,9 @@
         }    
         function drawDefeatPic(){
             if(IsMonsterDead()) {
-                `<img src='defeat.png'/>` 
-            }            
+                return `<img src='defeat.png'>` 
+            }        
+            else return ''    
         }
         function getMonsterView(){
             if(hasEncounteredMonster){
