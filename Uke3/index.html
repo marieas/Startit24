@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+    </div>
+
+    <script>
+
+        //Model
+        let appDiv = document.getElementById('app');
+        let health = 100;
+        let name = "Bjarne";
+        let energy = 100;
+        let gold = 0;
+        let adventureText = 'Your adventure has started!'
+        let isGameInAction = true;
+        let monsterHealth = 50;
+        let monsterName = "Terje"
+        let hasEncounteredMonster = false;
+
+
+        //View
+        updateView()
+        function updateView(){
+            appDiv.innerHTML = /*HTML*/ `
+            <div class="container">
+                <div>Adventurer
+                    <div>Health: ${health}</div>
+                    <div>Name: ${name}</div>
+                    <div>Energy: ${energy}</div>
+                    <div>Gold: ${gold}</div>
+                </div>
+                ${getMonsterView()}
+            </div>
+
+            <button onclick="findTreasure()">Find Treasure</button>
+            <button onclick="monsterEncounter()">Find a monster</button>
+
+            <div>${adventureText}<div>
+                ${drawDefeatPic()}
+            `;
+        }    
+        function drawDefeatPic(){
+            if(IsMonsterDead()) {
+                `<img src='defeat.png'/>` 
+            }            
+        }
+        function getMonsterView(){
+            if(hasEncounteredMonster){
+                return /*HTML*/`  
+                <div>Monster
+                    <div>Health: ${monsterHealth}</div>
+                    <div>Name: ${monsterName}</div>
+                    <button onclick="attackMonster()">Attack monster</button>
+                    <button onclick="fleeFromMonster()">Flee</button>
+                </div>
+            ` 
+            }
+            else{ 
+                return ``
+            }       
+        }
+
+
+        //Control
+        function findTreasure(){
+            let rng = Math.floor(Math.random() * 100)
+            if(rng >= 50){
+                gold += getAmountOfGold();
+                adventureText = `You found ${rng} amount of gold`;
+            }
+            else{
+                adventureText = 'You didnt find any gold :`( ';
+            }
+            updateView();
+        }
+        function getAmountOfGold(){
+            //10-50 gold som utforskeren får beholde
+            let rng = Math.floor((Math.random() * 50) + 10)
+            return rng;
+        }
+        function monsterEncounter(){
+            hasEncounteredMonster = true;
+            updateView();
+        }
+        function attackMonster(){
+            if(!IsMonsterDead()){
+                    adventureText = `You threw a badly solved math problem at ${monsterName} 
+                - ITS SUPER EFFECTIVE! ${monsterName} cries`;            
+                monsterHealth -= 50;
+            // monsterHealth = monsterHealth - 50;
+            monsterAttacks();
+            energyDrain();          
+            }
+            else{
+                adventureText = 'Monster is already dead, dont beat him when he is down'
+                
+            }    
+            updateView();       
+            
+        }
+        function monsterAttacks(){
+            adventureText = 'Terje gave you a hard math equation with 20 dmg'
+            health -= 20;
+            if(health <=0 ){
+                adventureText = 'Game over'
+                isGameInAction = false;
+            }
+        }
+        function fleeFromMonster(){
+            hasEncounteredMonster = false;
+            updateView();
+        }
+        function IsMonsterDead(){
+            console.log(monsterHealth)
+                if(monsterHealth < 0){
+                    return true;
+                }
+                else{
+                    return false;
+                }
+        }
+        function energyDrain(){
+           if(IsMonsterDead()){
+             energy -= 10;
+           }
+        }
+    </script>
+    <style>
+        .container{
+            display: grid;
+            grid-template-columns: auto auto;
+        }
+    </style>
+</body>
+</html>
