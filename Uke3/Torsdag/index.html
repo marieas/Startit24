@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <!--Klomaskin
+    Man kan legge på mynter (10, 20, 50)
+    Hvert spill koster 5kr
+    Vekslepenger dersom man er ferdig å spille
+    Man får en tilfeldig premie av et utvalg
+    Feks(bamse, pokemonleke, jojo?)
+    vis frem premier
+    Man kan velge å spille så lenge man har nok penger 
+    igjen i maskinen
+    Retning på kloa
+    -->
+    <div id="app"></div>
+    <script>
+        //Model
+        let recievedPrize = ''
+        //prizes.length = 10
+        const prizes = ['Romvesenleke', 'buzz lightyear',
+                        'fidget spinner', 'lekesverd',
+                        'sputnik hatt', 'gocart','glow stick',
+                        'rubber duck', 'tigergutt', 'sprettball']
+        //coinInput.length = 3
+        //index = plass i arrayet (starter 0)
+        const coinInput = [10,20,50]
+        let purse = 100;
+        let cashInMachine = 0;
+        let change = 0;    
+        let gameDisplay = ''    
+
+        //View
+        updateView();
+        function updateView(){
+            document.getElementById('app').innerHTML = /*HTML*/`
+            <img src="claw.jpg" height="300"/>
+            <div>Wallet: ${purse}<div>
+            <div>Coins in machine ${cashInMachine}<div>
+            <button onclick="startGame()">Start game</button>
+            <input onchange="insertCoins(this.value)">
+            <button onclick="grab()">Grab</button>
+            <button onclick="stopGame()">Stop</button>
+            <button onclick="animateClaw()">AnimateClaw</button>
+            <div>Prize: ${recievedPrize} </div>
+            <div>${gameDisplay}</div>
+            ${displayPrizes()}
+            `
+        }
+
+        function displayPrizes(){
+            let htmlString = '';
+            for(let counter = 0; counter<prizes.length; counter++)
+            {
+                htmlString += `<div>${prizes[counter]}</div>`
+            }
+
+            return htmlString;
+        }
+
+        //Control
+        function getPrize(){
+
+            if(willWin()){
+                let randomIndex = Math.floor(Math.random() * prizes.length) 
+                //tall mellom 0 og lengden av arrayet prize
+                recievedPrize = prizes[randomIndex]
+            }
+            else{
+                gameDisplay = 'You didnt win'
+            }
+            updateView();
+        }
+
+        function willWin(){
+            let randomNr = Math.floor(Math.random() * 5)
+            return randomNr == 4 ? true : false;
+           /* if(randomNr == 5)
+            {
+                return true;
+            }
+            else{
+                return false;
+            }*/
+        }
+
+        function insertCoins(insertedAmount){
+            purse -= parseInt(insertedAmount);
+            cashInMachine += insertedAmount;
+            updateView()
+        }
+
+        function returnChange(){
+            purse += cashInMachine;
+            cashInMachine = 0;
+            updateView();
+        }
+
+        function stopGame(){
+            returnChange();
+        }
+
+        function startGame(){
+            //- Prompt at man skal legge på penger
+            if(cashInMachine >= 5){
+                //gjøre ting videre
+                cashInMachine -= 5;
+                getPrize();
+                console.log('you have enough money')
+            }
+            else{
+                gameDisplay = 'Not enough coins'
+                updateView();
+                //not enough coins
+            }
+           
+        }
+        function animateClaw(){
+
+        }
+        function grab(){
+
+        }
+    </script>
+</body>
+</html>
