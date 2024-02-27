@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app"></div>
+
+    <script>
+        let fruits = ['Tomat','Appelsin','Mango','Banan','Eple','Drue']
+        let fruitPics = ['tomato.jpg','orange.jpg','mango.jpg','banana.jpg','apple.jpg','grape.jpg']
+        let fridgeFull = false;
+
+        updateView()
+        //fillFruitsWithKiwi()
+        function updateView(){
+            document.getElementById('app').innerHTML = /*HTML*/`
+            <input onchange="addFruit(this.value)"/>
+            <div>${drawFruitList()}</div>
+            `
+        }
+
+        function drawFruitList(){
+            let html = '';
+            for(let counter = 0; counter < fruits.length; counter++){
+                html += /*HTML*/`<li onclick="removeFruit('${counter}')">${fruits[counter]}</li>
+                        <img src="${fruitPics[counter]}" height=50px/>
+                        `
+            }
+            return html;
+        }
+        function changeFruit(fruitName){
+            console.log(fruitName)
+           let index = fruits.indexOf(fruitName)
+           fruits[index] = 'Grapefruit'; //Endre frukt man har trykt på
+           
+           updateView();
+        }
+        function removeFruit(index){
+           fruits.splice(index,1) // fjerne fra arrayet
+           updateView();
+        }
+
+        function fillFruitsWithKiwi(){          
+            while(fridgeFull == false){
+               fruits.push('Kiwi')
+               if(fruits.length >= 20){
+                    fridgeFull = true;
+               }
+            }
+            updateView();            
+        }
+
+        function addFruit(fruit){
+            fruits.push(fruit)
+            updateView()
+        }
+    </script>
+</body>
+</html>
