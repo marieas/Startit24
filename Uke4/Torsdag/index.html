@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!--Lag en ord-gjettings app!
+
+    Et vilkårlig ord skal velges og vises øverst 
+    som et "sensorert ord"
+    Brukeren gjetter en og en bokstav;
+    Dersom bokstaven finnes i fasitordet, skal
+    kryssene erstattes med bokstaven.
+    Bokstaver som er gjettet feil skal vises i en samling
+    under for å hjelpe bruker å huske hva h*n har gjettet
+    Man har maks 5 feil
+    -->
+    <div id="app" class="container"></div>
+    <script>
+        //M
+        let selectedWord = '';
+        let wrongLetters = [];
+        let potentialWords = ['fiskebolle','fyrverkeri','tullball','dataspill','lavvo','rattata','fluesmekker'];
+        let wordView = ''
+        let numberOfErrors = 0;
+        //V
+        updateView()
+        function updateView(){
+            document.getElementById('app').innerHTML =/*HTML*/ `
+            <div>${wordView}<div>
+            <input onchange="checkLetter(this.value)"/>
+            <div>${wrongLetters}</div>
+            <button onclick="selectWord()">Generate new word</button>
+            <div>${numberOfErrors}</div>
+            `
+        }
+        //C
+        function selectWord(){
+            selectedWord = getRandomWord()
+            for(let i = 0; i<selectedWord.length; i++){
+                wordView += 'X'
+            }
+            updateView();
+        }
+
+        function getRandomWord(){
+            let randomIndex = Math.floor(Math.random() * potentialWords.length)
+            return potentialWords[randomIndex];
+        }
+        function updateWordView(guessedLetter){
+            // erstatt X med riktig bokstav (dersom den finnes)
+
+            // B J A R N E
+            // X X a X X X
+            //let letter = selectedWord.charAt(0) returnerer bokstaven 'B'
+            
+            let tempWord = wordView;
+            wordView = '';
+
+            for(let i = 0; i<selectedWord.length; i++){
+                if(selectedWord.charAt(i) == guessedLetter ){
+                    wordView += guessedLetter;
+                }
+                else{
+                    if(tempWord.charAt(i) != 'X'){
+                       wordView += tempWord.charAt(i);
+                    }
+                    else{
+                        wordView += 'X'
+                    }                    
+                }                
+            }
+            //updateView();
+        }
+        function checkLetter(inputLetter){        
+            // sjekke om ordet vi har valgt inneholder bokstaven
+            if(selectedWord.includes(inputLetter)){
+                updateWordView(inputLetter)                
+            // Evt printe bra jobba om brukeren gjetter ordet.
+            }
+            else { //man har skrevet feil bokstav
+            // legge til bokstav i wrongLetters dersom det er feil
+                wrongLetters.push(inputLetter);
+            // øke antall feil (numberOfErrors)
+                numberOfErrors++;
+            }
+            updateView();
+        }
+    </script>
+    <style>
+        .container {
+            display: flex;
+        }
+    </style>
+</body>
+</html>
